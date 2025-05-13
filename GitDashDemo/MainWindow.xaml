@@ -5,8 +5,108 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GitDashDemo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+       Title="DevLink" Height="500" Width="900" MinWidth="700" MinHeight="450"
+        Background="#FFF5F7FA" FontFamily="Segoe UI">
+    <Window.Resources>
+        <!-- Accent Brush -->
+        <SolidColorBrush x:Key="AccentBrush" Color="#007ACC" />
+        <!-- TextBox Style -->
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#DDD" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <!-- Button Style -->
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Padding" Value="12,0" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#005A9E" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#004578" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Card Style -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Padding" Value="20" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#888" BlurRadius="10" ShadowDepth="2" Opacity="0.2" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Search Bar -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Top">
+            <TextBox x:Name="txtUsername" Width="250" />
+            <Button x:Name="btnSearch" Width="100" Content="Search" />
+        </StackPanel>
+
+        <!-- Profile Card -->
+        <Border Grid.Row="1" Style="{StaticResource CardStyle}" Margin="0,20,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Avatar -->
+                <Border Width="150" Height="150" CornerRadius="75" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" ClipToBounds="True">
+                    <Image x:Name="imgAvatar" Stretch="UniformToFill" />
+                </Border>
+
+                <!-- Details -->
+                <StackPanel Grid.Column="1" Margin="20,0,0,0">
+                    <TextBlock x:Name="lblName" FontSize="28" FontWeight="Bold" Foreground="#333" Text="Username" />
+                    <TextBlock x:Name="lblBio" FontSize="15" Foreground="#666" TextWrapping="Wrap" Margin="0,8,0,12" Text="User bio goes here." />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                        <TextBlock Text="Followers" FontWeight="SemiBold" Foreground="#333" />
+                        <Border Background="{StaticResource AccentBrush}" CornerRadius="4" Padding="4,2" Margin="6,0,0,0">
+                            <TextBlock x:Name="lblFollowers" Foreground="White" FontSize="14" Text="0" />
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                        <TextBlock Text="Public Repos" FontWeight="SemiBold" Foreground="#333" />
+                        <Border Background="{StaticResource AccentBrush}" CornerRadius="4" Padding="4,2" Margin="6,0,0,0">
+                            <TextBlock x:Name="lblRepos" Foreground="White" FontSize="14" Text="0" />
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
