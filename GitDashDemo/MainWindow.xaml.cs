@@ -19,6 +19,8 @@ namespace GitDashDemo
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			DataContext = new GitMainViewModel();
 		}
 	}
 }
