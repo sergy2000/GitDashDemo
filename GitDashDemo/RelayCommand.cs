@@ -11,34 +11,48 @@ namespace GitDashDemo
 
 		public class RelayCommand : ICommand
 		{
-			private readonly Action<object?> _execute;
-			private readonly Func<object?, bool>? _canExecute;
+        private readonly Action<object?> _executeParam;
+        private readonly Func<object?, bool>? _canExecuteParam;
 
-			public RelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
-			{
-				_execute = execute ?? throw new ArgumentNullException(nameof(execute));
-				_canExecute = canExecute;
-			}
+        private readonly Action _execute;
+        private readonly Func<bool>? _canExecute;
 
-			public bool CanExecute(object? parameter)
-			{
-				return _canExecute?.Invoke(parameter) ?? true;
-			}
+        public RelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
+        {
+            _executeParam = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecuteParam = canExecute;
+        }
 
-			public void Execute(object? parameter)
-			{
-				_execute(parameter);
-			}
+        public RelayCommand(Action execute, Func<bool>? canExecute = null)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
 
-			public event EventHandler? CanExecuteChanged;
+        public bool CanExecute(object? parameter)
+        {
+            if (_canExecuteParam != null)
+                return _canExecuteParam(parameter);
+            if (_canExecute != null)
+                return _canExecute();
+            return true;
+        }
 
-			/// <summary>
-			/// Call this to raise the CanExecuteChanged event and refresh button enabled state.
-			/// </summary>
-			public void RaiseCanExecuteChanged()
-			{
-				CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-			}
-		}
-	}
+        public void Execute(object? parameter)
+        {
+            if (_executeParam != null)
+                _executeParam(parameter);
+            else
+                _execute();
+        }
+
+        public event EventHandler? CanExecuteChanged;
+
+       
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+}
 

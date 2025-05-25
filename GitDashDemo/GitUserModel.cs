@@ -13,6 +13,10 @@ namespace GitDashDemo
 		public string repos_url { get; set; }
 		public string bio { get; set; }
 		public DateTime? created_at { get; set; }
+		public int follower { get; set; }
+		public int following {  get; set; }
+		public int public_repos {  get; set; }
+
 
 	}
 }

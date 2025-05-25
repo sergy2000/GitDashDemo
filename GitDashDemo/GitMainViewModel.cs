@@ -18,8 +18,9 @@ namespace GitDashDemo
 		public string Username
 		{
 			get => username;
-			private set { username = value; OnPropertyChanged(); }
+			 set { username = value; OnPropertyChanged(); }
 		}
+		private readonly GithubApiService _api = new GithubApiService();
 
 		public ICommand btnSearch { get; }
 
@@ -44,7 +45,7 @@ namespace GitDashDemo
 
 		public GitMainViewModel()
 		{
-			//btnSearch = new RelayCommand(async () => await DoSearch(), () => !IsBusy);
+			btnSearch = new RelayCommand(async () => await DoSearch(), () => !IsBusy);
 		}
 
 		private void OnPropertyChanged(string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -56,7 +57,7 @@ namespace GitDashDemo
 			if (string.IsNullOrWhiteSpace(Username)) return;
 
 			IsBusy = true;
-			//User = await _api.GetUserAsync(Username);
+			User = await _api.GetUserAsync(Username);
 			IsBusy = false;
 		}
 

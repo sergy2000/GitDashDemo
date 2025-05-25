@@ -16,11 +16,12 @@ namespace GitDashDemo
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		GitMainViewModel _viewModel = new GitMainViewModel();
 		public MainWindow()
 		{
 			InitializeComponent();
 
-			DataContext = new GitMainViewModel();
+			DataContext = _viewModel;
 		}
 	}
 }

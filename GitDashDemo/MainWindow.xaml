@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GitDashDemo" d:DataContext="{d:DesignInstance Type=local:GitMainViewModel}"
+        xmlns:gitdashdemo="clr-namespace:GitDashDemo" d:DataContext="{d:DesignInstance Type=gitdashdemo:GitMainViewModel}"
         mc:Ignorable="d"
        Title="DevLink" Height="500" Width="900" MinWidth="700" MinHeight="450"
         Background="#FFF5F7FA" FontFamily="Segoe UI">
+
+    
     <Window.Resources>
         <!-- Accent Brush -->
         <SolidColorBrush x:Key="AccentBrush" Color="#007ACC" />
@@ -70,8 +72,8 @@
 
         <!-- Search Bar -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Top">
-            <TextBox Text="{Binding userName}" Width="250" />
-            <Button x:Name="btnSearch" Width="100" Content="Search" />
+            <TextBox Text="{Binding Username}" Width="250" />
+            <Button x:Name="btnSearch" Width="100" Content="Search" Command="{Binding btnSearch}" />
         </StackPanel>
 
         <!-- Profile Card -->
@@ -84,25 +86,25 @@
 
                 <!-- Avatar -->
                 <Border Width="150" Height="150" CornerRadius="75" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" ClipToBounds="True">
-                    <Image x:Name="imgAvatar" Stretch="UniformToFill" />
+                    <Image  Source="{Binding User.avatar_url}" x:Name="imgAvatar" Stretch="UniformToFill" />
                 </Border>
 
                 <!-- Details -->
                 <StackPanel Grid.Column="1" Margin="20,0,0,0">
-                    <TextBlock x:Name="lblName" FontSize="28" FontWeight="Bold" Foreground="#333" Text="Username" />
-                    <TextBlock x:Name="lblBio" FontSize="15" Foreground="#666" TextWrapping="Wrap" Margin="0,8,0,12" Text="User bio goes here." />
+                    <TextBlock x:Name="lblName" FontSize="28" FontWeight="Bold" Foreground="#333" Text="{Binding User.login}" />
+                    <TextBlock x:Name="lblBio" FontSize="15" Foreground="#666" TextWrapping="Wrap" Margin="0,8,0,12" Text="{Binding User.bio}" />
 
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                         <TextBlock Text="Followers" FontWeight="SemiBold" Foreground="#333" />
                         <Border Background="{StaticResource AccentBrush}" CornerRadius="4" Padding="4,2" Margin="6,0,0,0">
-                            <TextBlock x:Name="lblFollowers" Foreground="White" FontSize="14" Text="0" />
+                            <TextBlock x:Name="lblFollowers" Foreground="White" FontSize="14" Text="{Binding User.follower}" />
                         </Border>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                         <TextBlock Text="Public Repos" FontWeight="SemiBold" Foreground="#333" />
                         <Border Background="{StaticResource AccentBrush}" CornerRadius="4" Padding="4,2" Margin="6,0,0,0">
-                            <TextBlock x:Name="lblRepos" Foreground="White" FontSize="14" Text="0" />
+                            <TextBlock Text="{Binding User.public_repos}" x:Name="lblRepos" Foreground="White" FontSize="14" />
                         </Border>
                     </StackPanel>
                 </StackPanel>
