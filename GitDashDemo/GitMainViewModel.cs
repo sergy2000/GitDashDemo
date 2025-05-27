@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -40,6 +41,8 @@ namespace GitDashDemo
 			set { user = value; OnPropertyChanged(); }
 		}
 
+		public ObservableCollection<RepoModel> Repo { get; set; }
+
 
 
 
@@ -58,7 +61,8 @@ namespace GitDashDemo
 
 			IsBusy = true;
 			User = await _api.GetUserAsync(Username);
-			IsBusy = false;
+            Repo = new ObservableCollection<RepoModel>((IEnumerable<RepoModel>)await _api.GetReposAsync(Username));
+            IsBusy = false;
 		}
 
 

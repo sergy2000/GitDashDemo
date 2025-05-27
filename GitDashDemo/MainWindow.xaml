@@ -8,7 +8,7 @@
        Title="DevLink" Height="500" Width="900" MinWidth="700" MinHeight="450"
         Background="#FFF5F7FA" FontFamily="Segoe UI">
 
-    
+
     <Window.Resources>
         <!-- Accent Brush -->
         <SolidColorBrush x:Key="AccentBrush" Color="#007ACC" />
@@ -35,8 +35,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
@@ -67,13 +66,19 @@
     <Grid Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <!-- Search -->
+            <RowDefinition Height="Auto" />
+            <!-- Profile -->
+            <RowDefinition Height="Auto" />
+            <!-- Repos header -->
             <RowDefinition Height="*" />
+            <!-- Repos list -->
         </Grid.RowDefinitions>
 
         <!-- Search Bar -->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Top">
-            <TextBox Text="{Binding Username}" Width="250" />
-            <Button x:Name="btnSearch" Width="100" Content="Search" Command="{Binding btnSearch}" />
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Width="250"  />
+            <Button Content="Search" Command="{Binding btnSearch}" />
         </StackPanel>
 
         <!-- Profile Card -->
@@ -86,29 +91,57 @@
 
                 <!-- Avatar -->
                 <Border Width="150" Height="150" CornerRadius="75" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" ClipToBounds="True">
-                    <Image  Source="{Binding User.avatar_url}" x:Name="imgAvatar" Stretch="UniformToFill" />
+                    <Image Source="{Binding User.avatar_url}" Stretch="UniformToFill" />
                 </Border>
 
                 <!-- Details -->
                 <StackPanel Grid.Column="1" Margin="20,0,0,0">
-                    <TextBlock x:Name="lblName" FontSize="28" FontWeight="Bold" Foreground="#333" Text="{Binding User.login}" />
-                    <TextBlock x:Name="lblBio" FontSize="15" Foreground="#666" TextWrapping="Wrap" Margin="0,8,0,12" Text="{Binding User.bio}" />
-
+                    <TextBlock Text="{Binding User.login}" FontSize="28" FontWeight="Bold" Foreground="#333" />
+                    <TextBlock Text="{Binding User.bio}" FontSize="15" Foreground="#666" TextWrapping="Wrap" Margin="0,8,0,12" />
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                        <TextBlock Text="Followers" FontWeight="SemiBold" Foreground="#333" />
+                        <TextBlock Text="Followers:" FontWeight="SemiBold" Foreground="#333" />
                         <Border Background="{StaticResource AccentBrush}" CornerRadius="4" Padding="4,2" Margin="6,0,0,0">
-                            <TextBlock x:Name="lblFollowers" Foreground="White" FontSize="14" Text="{Binding User.follower}" />
+                            <TextBlock Text="{Binding User.follower}" Foreground="White" FontSize="14" />
                         </Border>
                     </StackPanel>
-
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                        <TextBlock Text="Public Repos" FontWeight="SemiBold" Foreground="#333" />
+                        <TextBlock Text="Public Repos:" FontWeight="SemiBold" Foreground="#333" />
                         <Border Background="{StaticResource AccentBrush}" CornerRadius="4" Padding="4,2" Margin="6,0,0,0">
-                            <TextBlock Text="{Binding User.public_repos}" x:Name="lblRepos" Foreground="White" FontSize="14" />
+                            <TextBlock Text="{Binding User.public_repos}" Foreground="White" FontSize="14" />
                         </Border>
                     </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>
+
+        <!-- Repos Header -->
+        <TextBlock Grid.Row="2" Text="Public Repositories" FontSize="20" FontWeight="Bold" Margin="0,20,0,8" />
+
+        <!-- Repos List -->
+        <Border Grid.Row="3" Style="{StaticResource CardStyle}" Padding="12">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Repo}" Margin="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,4" Padding="8" CornerRadius="4" Background="#FAFAFA">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Description}" FontSize="13" Foreground="#555" TextWrapping="Wrap" MaxHeight="40" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                        <TextBlock Margin="0,0,12,0"><Run Text="★"/> <Run Text="{Binding Stars}"/>
+                                        </TextBlock>
+                                        <TextBlock Margin="0,0,12,0"><Run Text="🍴"/><Run Text="{Binding Forks}"/>
+                                        </TextBlock>
+                                        <TextBlock Margin="0,0,12,0"><Run Text="📝"/><Run Text="{Binding Language}"/>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding UpdatedAt, StringFormat='{}{0:MM/dd/yyyy}'}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
     </Grid>
-</Window>
+    </Window>

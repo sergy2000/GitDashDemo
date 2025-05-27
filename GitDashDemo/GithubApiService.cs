@@ -25,5 +25,13 @@ namespace GitDashDemo
 			var json = await resp.Content.ReadAsStringAsync();
 			return JsonConvert.DeserializeObject<GitUserModel>(json);
 		}
-	}
+
+        public async Task<List<RepoModel>> GetReposAsync(string username)
+        {
+            var resp = await _client.GetAsync($"https://api.github.com/users/{username}/repos");
+            if (!resp.IsSuccessStatusCode) return new List<RepoModel>();
+            var json = await resp.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<RepoModel>>(json);
+        }
+    }
 }
